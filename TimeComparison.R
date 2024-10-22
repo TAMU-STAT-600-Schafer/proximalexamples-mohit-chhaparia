@@ -4,7 +4,7 @@
 # Lasso functions for coordinate descent
 source("LASSO_CoordinateDescent.R")
 # Functions written in the starter code
-source("StarterCode.R")
+source("LassoProximalExample.R")
 # For later time comparisons
 library(microbenchmark)
 #########################################
@@ -16,7 +16,7 @@ n = 30
 Y <- rnorm(n)
 X <- matrix(rnorm(n*p), n, p)
 out <- standardizeXY(X,Y)
-lambda_max <- max(abs(crossprod(out$Xtilde, out$Ytilde))/nrow(X))
+lambda_max <- max(abs(crossprod(out$Xtilde, out$Ytilde))/nrow(X)) # Lambda max for the lasso coordinate descent algorithm
 
 #########################################
 # Check equality of outputs between coordinate descent and proximal gradient algorithms
@@ -26,7 +26,7 @@ out_coord <- fitLASSOstandardized(out$Xtilde, out$Ytilde, beta_start = rep(0, p)
 out_prox <- fitLASSOstandardized_prox(out$Xtilde, out$Ytilde, beta_start = rep(0, p), lambda = lambda1, eps = 1e-10, s = 0.1)
 out_coord$fmin - out_prox$fmin
 plot(out_coord$beta, out_prox$beta)
-
+abline(a = 0, b = 1)
 
 # Check the implementation time
 microbenchmark(
