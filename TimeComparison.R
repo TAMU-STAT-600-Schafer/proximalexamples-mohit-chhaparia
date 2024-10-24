@@ -40,7 +40,6 @@ microbenchmark(
 out_prox2 <- fitLASSOstandardized_prox_Nesterov(out$Xtilde, out$Ytilde, beta_start = rep(0, p),lambda = lambda1, eps = 1e-10, s = 0.1)
 out_coord$fmin - out_prox2$fmin
 plot(out_coord$beta, out_prox2$beta)
-plot(out_prox2$fobj_vec[-c(1:40)])
 
 # Check the implementation time
 microbenchmark(

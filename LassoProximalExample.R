@@ -88,7 +88,7 @@ fitLASSOstandardized_prox_Nesterov <- function(Xtilde, Ytilde, lambda, beta_star
   
   # Initialize the Nesterov Sequence
   
-  lambda_t <- 0
+  lambda_t <- 1
   lambda_t1 <- (1 + sqrt(1 + 4 * lambda_t ^ 2)) / 2
   
   while(error > eps){
