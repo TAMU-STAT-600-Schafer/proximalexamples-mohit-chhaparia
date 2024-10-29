@@ -148,6 +148,29 @@ fitLASSOstandardized_ADMM <- function(Xtilde, Ytilde, lambda, beta_start = NULL,
   }
   
   # ADMM implementation
+  
+  error <- 1000
+  theta <- beta_start
+  beta <- beta_start
+  eta <- rep(0, p) # beta = theta is p-dimensional
+  
+  while(error > eps){
+    
+    beta_old <- beta
+    
+    # Update beta
+    beta <- solve(crossprod(Xtilde) / n + diag(p) / tau, crossprod(Xtilde, Ytilde) / n + (theta - eta) / tau)
+    
+    # Update theta
+    theta <- soft(beta + eta, lambda * tau)
+    
+    # Update eta
+    eta <- eta + beta - theta
+    
+    # Update error
+    error <- abs(lasso(Xtilde, Ytilde, beta_old, lambda) - 
+                   lasso(Xtilde, Ytilde, beta, lambda))
+  }
 
 
   return(list(beta = beta, fmin = lasso(Xtilde, Ytilde, beta, lambda)))
